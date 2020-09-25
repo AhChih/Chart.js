@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="myChart"></canvas>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+</body>
+</html>
+
+<script>
+  let data = []
+  let newDate = []
+
+  function getApi () {
+  const api = 'https://run.mocky.io/v3/a34c5fe1-6025-4c9d-8402-5c777b685476'
+  axios.get(api).then((res) => {
+    res.data.data.forEach((item) => {
+       data.push(item[0])
+    })
+   console.log(res.data.data)
+  })
+  }
+ 
+
+  // Chart.js
+  chartit();
+
+  async function chartit () {
+  await getApi()
+  await getDate()
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+    // The data for our dataset
+    data: {
+        labels: newDate[0],
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: [0, 30, 40, 50, 60, 70, 90]
+        }]
+    },
+  });
+}
+
+function getDate (){
+  newDate.push(data)
+  console.log(newDate)
+}
+</script>
