@@ -3,56 +3,162 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <title>Document</title>
+  <title>Chart.js</title>
 </head>
 <body>
-  <canvas id="myChart"></canvas>
-
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <canvas id="myChart"></canvas>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
 
 <script>
-  let data = []
-  let newDate = []
 
-  function getApi () {
-  const api = 'https://run.mocky.io/v3/a34c5fe1-6025-4c9d-8402-5c777b685476'
-  axios.get(api).then((res) => {
-    res.data.data.forEach((item) => {
-       data.push(item[0])
-    })
-   console.log(res.data.data)
+let api_1 = 'https://run.mocky.io/v3/a34c5fe1-6025-4c9d-8402-5c777b685476';
+let api_2 = 'https://run.mocky.io/v3/b6b3ee44-03f2-4d3d-84e1-1f2e68be6f7e';
+let api_3 = 'https://run.mocky.io/v3/8e7a5232-2974-4621-a818-0985e623169e';
+let api_4 = 'https://run.mocky.io/v3/9ef80280-6c04-4d01-ae55-e3846ba758de';
+let api_5 = 'https://run.mocky.io/v3/7826ab76-0be2-4103-8377-9a2669942868?mocky-delay=1500ms';
+
+const getApi_1 = axios.get(api_1);
+const getApi_2 = axios.get(api_2);
+const getApi_3 = axios.get(api_3);
+const getApi_4 = axios.get(api_4);
+const getApi_5 = axios.get(api_5);
+
+const xData_1 = [];
+const xData_2 = [];
+const xData_3 = [];
+
+const yData_1 = [];
+const yData_2 = [];
+const yData_3 = [];
+const yData_4 = [];
+const yData_5 = [];
+
+const xlable_1 = [];
+
+const yTemps_1 = [];
+const yTemps_2 = [];
+const yTemps_3 = [];
+const yTemps_4 = [];
+const yTemps_5 = [];
+
+const ctx = document.getElementById('myChart').getContext('2d');
+axios.all([getApi_1, getApi_2, getApi_3, getApi_4, getApi_5]).then(axios.spread((...res) => {
+  console.log(res)
+  res[0].data.data.forEach((i) => {
+    xData_1.push(i[0])
+    yData_1.push(i[1])
   })
-  }
- 
+  res[1].data.data.forEach((i) => {
+    yData_2.push(i[1])
+  })
+  res[2].data.data.forEach((i) => {
+    yData_3.push(i[1])
+  })
+  res[3].data.data.forEach((i) => {
+    yData_4.push(i[1] * 100)
+  })
+  res[4].data.data.forEach((i) => {
+    yData_5.push(i[1] * 100)
+  })
 
-  // Chart.js
-  chartit();
-  getApi();
-  
-  async function chartit () {
-  await getDate()
-  const ctx = document.getElementById('myChart').getContext('2d');
+  xlable_1.push(xData_1)
+  yTemps_1.push(yData_1)
+  yTemps_2.push(yData_2)
+  yTemps_3.push(yData_3)
+  yTemps_4.push(yData_4)
+  yTemps_5.push(yData_5)
+
+})).then(() => {
   const chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'bar',
-    // The data for our dataset
-    data: {
-        labels: newDate[0],
-        datasets: [{
-            label: 'My First dataset',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: [0, 30, 40, 50, 60, 70, 90]
-        }]
+      type: 'bar',
+      data: {
+        labels: xlable_1[0],
+        datasets: [
+        {
+          type: 'line',
+          label: 'line',
+          data: yTemps_4[0],
+          borderColor: 'rgba(222, 160, 130)',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          pointBackgroundColor: 'white',
+          id: "y-axis-1",
+        },
+        {
+          type: 'line',
+          label: 'line',
+          data: yTemps_5[0],
+          borderColor: 'rgba(153, 204, 153)',
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          pointBackgroundColor: 'white',
+          id: "y-axis-1",
+        },
+        {
+          label: 'A',
+          backgroundColor: "rgba(206,93,90,0.75)",
+          data: yTemps_1[0],
+          id: "y-axis-0",
+        },
+        {
+          type: 'bar',
+          label: 'B',
+          backgroundColor: "rgba(89,106,118,0.75)",
+          data: yTemps_2[0],
+          id: "y-axis-0",
+        },
+        {
+          type: 'bar',
+          label: 'C',
+          backgroundColor: "rgba(129,179,186,0.75)",
+          data: yTemps_3[0],
+          id: "y-axis-0",
+        },
+      ]
     },
+    options: {
+      responsive: true,
+      responsiveAnimationDuration: true,
+      title: 
+      {
+        display: true,
+        text: '面試題目二'
+      },
+      scales: {
+        yAxes: [
+      {
+        display: true,
+        position: "left",
+        id: "y-axis-0",
+        ticks: {
+            min: 0,
+            max: 1000,
+            stepSize: 100,
+        }
+      }, 
+      { 
+        display: true,
+        id: "y-axis-1",
+        position: "right",
+        ticks: {
+            min: 0,
+            max: 10,
+            stepSize: 1,
+        }
+      }
+    ]}}
   });
-}
-
-function getDate (){
-  newDate.push(data)
-  console.log(newDate)
-}
+})
 </script>
+
