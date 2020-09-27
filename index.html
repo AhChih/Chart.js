@@ -56,7 +56,6 @@ const yTemps_5 = [];
 
 const ctx = document.getElementById('myChart').getContext('2d');
 axios.all([getApi_1, getApi_2, getApi_3, getApi_4, getApi_5]).then(axios.spread((...res) => {
-  console.log(res)
   res[0].data.data.forEach((i) => {
     xData_1.push(i[0])
     yData_1.push(i[1])
